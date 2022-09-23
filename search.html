@@ -1,0 +1,63 @@
+<input type="text" id="search_keyword" placeholder="키워드 검색">
+<input type="button" id="search_btn" value="검색">
+
+<table id="lst">
+    <thead>
+        <tr>
+            <td>ID</td>
+            <td>제목</td>
+        </tr>
+    </thead>
+    <tbody>
+
+    </tbody>
+</table>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+<script>
+$('#search_btn').click(function(){
+    var search_keyword = $('#search_keyword').val();
+    $.ajax({
+        url: 'http://127.0.0.1:8000/search/'+search_keyword,
+        type: 'get',
+        dataType : 'json',
+		// contentType : 'application/json',
+        // data: ({
+        //     search_keyword: search_keyword
+        // }),
+        success: function(data){
+            $('#lst tbody').empty();
+            data.forEach(function(item){
+                var tr = $('<tr>');
+                var td1 = $('<td>');
+                var td2 = $('<td>');
+                td1.text(item.article_id);
+                td2.text(item.title);
+                
+                //on dt2 click -> alert via ajax
+                td2.click(function(){
+                    td2.css('background-color', '#ccc');
+                    $.ajax({
+                        url: 'http://127.0.0.1:8000/item/'+item.article_id,
+                        type: 'get',
+                        dataType : 'json',
+                        success: function(data){
+                            alert(data.cost);
+                        }
+                    });
+                });
+
+                //td2 style
+                td2.css({
+                    'cursor': 'pointer',
+                    'color': 'blue'
+                });
+
+                tr.append(td1);
+                tr.append(td2);
+                $('#lst tbody').append(tr);
+            });
+        }
+    });
+});
+</script>
