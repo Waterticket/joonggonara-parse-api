@@ -6,8 +6,8 @@ from bs4 import BeautifulSoup
 
 browser = webdriver.Chrome() # 현재파일과 동일한 경로일 경우 생략 가능
 
-user_id = ''
-user_pw = ''
+user_id = '' # 네이버 계정 아이디
+user_pw = '' # 네이버 계정 패스워드
 
 # 1. 네이버 이동
 browser.get('https://www.naver.com')
